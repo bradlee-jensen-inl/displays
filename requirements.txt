@@ -1,0 +1,6 @@
+Django
+Jinja2
+django_jinja
+django_jinja_markdown
+django-grappelli
+psycopg2-binary

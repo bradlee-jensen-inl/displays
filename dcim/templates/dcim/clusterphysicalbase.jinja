@@ -1,0 +1,87 @@
+{% extends 'home/base.jinja' %}
+{% block browsertitle %}{{cluster.name}} Physical Display{% endblock browsertitle %}
+{% block pagetitle %}{{cluster.name}} Physical Display{% endblock pagetitle %}
+
+{% block head %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ static('dcim/css/dcim.css') }}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="{{ static('dcim/js/dcim-class.js') }}"></script>
+    <script src="{{ static('dcim/js/dcim.js') }}"></script>
+    <script src="{{ static('dcim/js/heatmap.js') }}"></script>
+
+    {% if cluster.name == 'bitterroot' %}
+        <script src="{{ static('dcim/js/bitterroot.js') }}"></script>
+    {% elif cluster.name == 'sawtooth' %}
+        <script src="{{ static('dcim/js/sawtooth.js') }}"></script>
+    {% elif cluster.name == 'lemhi' %}
+        <script src="{{ static('dcim/js/lemhi.js') }}"></script>
+    {% elif cluster.name == 'windriver' %}
+        <script src="{{ static('dcim/js/windriver.js') }}"></script>
+    {% elif cluster.name == 'utility' %}
+        <script src="{{ static('dcim/js/utility.js') }}"></script>
+    {% endif %}
+
+
+    <script>
+        function getLayoutData() {
+            var cluster = "{{cluster.name}}"
+            $.getJSON("{{ url('dcim:layout_data', cluster='PH_C')}}".replace('PH_C', cluster),
+                function(data) {
+                    display("{{side}}", data);
+                }
+        );
+    }
+    </script>
+{% endblock head %}
+
+{% block addtodocumentready %}
+    $(".picturescrollbox").css("height", "1260px");
+
+    $("#information").hide();
+
+    getLayoutData();
+{% endblock addtodocumentready %}
+
+{% block wrappercontainertype %} container-fluid {% endblock %}
+{% block contentcontainertype %} container-fluid {% endblock %}
+
+{% block maincontent %}
+{# <div class="container"> #}
+    <div class="row" style="height: 150px;">
+        <div class="col-3">
+            <div>
+                <em style="font-size:16px;"> Interactive! Click to learn more about each chassis in this cluster.</em>
+            </div>
+            <a href="{{ url('dcim:PhysicalClusterViewFront', cluster='C_PH') | replace('C_PH', cluster.name) }}" class="physicalLinkFront btn btn-primary m-1">Rack Front</a>
+            {% if cluster.name != 'utility'%}
+                <a href="{{ url('dcim:PhysicalClusterViewBack', cluster='C_PH') | replace('C_PH', cluster.name) }}" class="physicalLinkBack btn  btn-primary m-1">Rack Back</a>
+            {% endif %}
+        </div>
+        <div id="information" class="important-blue-bg round-background col-8 row" style="height-min: 160px;">
+            <div id="racktexttitle" class="col-3"></div>
+            <div id="racktext" class="col"></div>
+        </div>
+    </div>
+
+    <ul id="rowLinks" class="nav nav-tabs user-lookup-tabs">
+        {% for row in rows %}
+            {% if row == '1' %}
+                <li class="nav-item"><a class="content-tab nav-link active" aria-current="rowarea{{row}}" href="#rowarea{{row}}" role="tab" data-bs-toggle="tab" aria-selected="true">Row {{row}}</a></li>
+            {% else %}
+                <li class="nav-item"><a class="content-tab nav-link" aria-current="rowarea{{row}}" href="#rowarea{{row}}" role="tab" data-bs-toggle="tab">Row {{row}}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <div class="tab-content">
+        {% for row in rows %}
+            {% with rowNum = row %}
+                {% include 'dcim/clusterrow.jinja' %}
+            {% endwith %}
+        {% endfor %}
+     </div>
+{# </div> #}
+
+{% endblock maincontent %}

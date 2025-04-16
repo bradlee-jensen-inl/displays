@@ -1,0 +1,121 @@
+/******************************* Rack Numbers *******************************/
+
+td {
+    border: none !important;
+    width: 210px;
+    text-align: center !important;
+}
+
+table {
+    border: none !important;
+    width: 1000px;
+    table-layout: fixed;
+}
+
+table, td {
+    margin-left: 40px !important;
+}
+
+/******************************* Images *******************************/
+.datacenterimg {
+    height:500px;
+    z-index:1;
+}
+
+.nodeimg {
+    position: absolute;
+}
+
+/******************************* Information display *******************************/
+.nodeinformation {
+    z-index: 8;
+    height: 100%;
+    padding:10px;
+    border-radius: 5px;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    margin: 10px;
+}
+
+.informationtitle {
+    text-align:center;
+}
+
+.rowtabs {
+    cursor: pointer;
+    padding-bottom: 0px;
+}
+
+/******************************* Highlights & Heat map *******************************/
+.highlightdatacenterrow{
+    position: absolute;
+    z-index: 8;
+    height: 500px;
+    border: 3px solid red;
+    background-color: gray;
+    opacity: 0.3;
+    width:90px;
+    display: none;
+}
+
+.highlightnode {
+    position: absolute;
+    height: 17px;
+    background-color: rgb(0, 174, 239, 0.7);
+    display:none;
+    z-index:9;
+}
+
+.buttonhighlight {
+    position:absolute;
+    z-index:8;
+    background-color:transparent;
+    cursor: pointer;
+}
+
+/******************************* Color scheme for clusters *******************************/
+.hpcgray {
+    background: rgb(169, 169, 169, 0.9);
+}
+
+/****************************** Misc ******************************/
+.map {
+    cursor: pointer;
+}
+
+.optiontabs{
+    padding-bottom: 0px;
+}
+
+.edgetopologylabel {
+    top: 175px;
+    position: absolute;
+}
+
+.nodetopologylabel {
+    top: 340px;
+    position: absolute;
+}
+
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+li {
+    list-style-type: none;
+}
+
+body {
+    cursor: default !important;
+}
+
+div.picturescrollbox {
+    overflow: auto;
+    z-index: 1;
+    height: 1300px;
+    position: relative;
+}

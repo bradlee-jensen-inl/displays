@@ -1,0 +1,184 @@
+{% extends "home/base.jinja" %}
+{% block browsertitle %}Data Center Visual {% endblock %}
+{% block pagetitle %}Data Center Visual {% endblock %}
+{% block addtohead %}
+   	<link rel="stylesheet" href="{{ static('dcim/css/dcim.css') }}">
+
+    <script src="{{ static('dcim/js/dcim.js') }}"></script>
+    <script src="{{ static('dcim/js/datacenter.js') }}"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .sawtooth-color {
+            background-color: #ffab00
+        }
+
+        .hoodoo-color {
+            background-color:#6554c0
+        }
+
+        .bitterroot-color {
+            background-color:#36b37e
+        }
+
+        .windriver-color {
+            background-color:#00b8d9
+        }
+
+        .teton-color {
+            background-color:#ff5630
+        }
+
+        .lemhi-color, .falcon-color, .utility-color {
+            background-color: gray
+        }
+    </style>
+
+    <script>
+    var sawtooth_overview = `<div class="row pd-15">
+                            <div class="col-3">
+                                <img id="sawtoothRange" src='/static/dcim/images/datacenter_sawtoothRow.JPG' alt=""
+                                class="img-fluid img-thumbnail">
+                            </div>
+                            <div class="col-9">
+                                Supercomputer Sawtooth arrived at Idaho National Laboratory in 2019. It was named after the Sawtooth mountain range in
+                                central Idaho. Sawtooth features Intel Cascade Lake processors running at 2.9 GHz, with some nodes also equipped with 4 NVIDIA V100
+                                GPUs and an additional 192 GB of RAM. Sawtooth can process 6 quadrillion floating-point calculations per second (6 PFLOPS).
+                                Sawtooth consists of 2,079 compute nodes. Each node of Sawtooth has 48 cores and 192 GB of memory. The total memory of
+                                Sawtooth is 404 TB.
+                            </div>
+                        </div>`;
+    var hoodoo_overview = `<div class="row">
+                            <div class="col-3">
+                                <img id="sawtoothRange" src="/static/dcim/images/hoodoo-expansion.jpg" alt="" class="img-fluid img-thumbnail">
+                                <img id="sawtoothRange" src="/static/dcim/images/hoodoo-front.jpg" alt="" class="img-fluid img-thumbnail">
+                            </div>
+                            <div class="col-9">
+                                Supercomputer Hoodoo arrived at Idaho National Laboratory in 2021. It was named after the Hoodoo mountain range in
+                                Idaho.
+                                Hoodoo is used for machine learning and artificial intelligence. This includes nuclear energy research, materials
+                                science,
+                                environmental modeling, and more. It has 2 different types of nodes that continue to be used for high performance
+                                computing tasks.
+                                Hoodoo is a Lambda Hyperplane deep learning distributed memory system with 44 NVIDIA A100 tensor core GPUs and 23.5 TB
+                                of total memory.
+                                The system provides a maximum performance of 429 TFlops double precision or 858 TFlops single precision.
+                            </div>`;
+    var windriver_overview = `
+                            <div class="row">
+                            <div class="col-3">
+                                <img src='/static/dcim/images/windriver.jpg' alt=""
+                                    class="img-fluid img-thumbnail">
+                            </div>
+                            <div class="col-9">
+                                Supercomputer Wind River arrived at Idaho National Laboratory in 2024. The system, consisting of 20 racks, was acquired for a total cost of $8.5 million.
+                                It was named after the Wind River Mountain Range in Wyoming. Featuring an OPA Fat-Tree network topology, Wind River ensures efficient data communication and processing.
+                                Wind River has 5.35 Petaflops of performance. The new Dell Commodity Technology
+                                Systems-2 with 384 nodes is an advanced data system designed to deliver exceptional computational power and efficiency. Wind River has over 94,416
+                                cores and 210.75 TB of memory.
+                            </div>`;
+    var bitterroot_overview = `
+                                <div class="row">
+                                <div class="col-3">
+                                    <img id="bitterroot" src="/static/dcim/images//Bitterroot.jpg" class="img-fluid img-thumbnail">
+                                </div>
+                                <div class="col-9">
+                                Supercomputer Bitterroot arrived at Idaho National Laboratory in June 2024. It was named after the Bitterroot mountain
+                                range located on the Idaho-Montana border. It is a 43,008-core Dell Commodity Technology Systems-2 with an Omnipath interconnect. There
+                                are 48 HBM nodes, which makes it very unique. It continues to be used for high performance computing tasks including computational power
+                                and storage capabilities for scientific simulations, data analysis, and modeling. Bitterroot has over 43,000 cores and 90 TB of total memory.
+                                </div>`;
+
+    function clusterInfo(cluster, informationaltxt) {
+        var no_display_clusters = ['Falcon', 'University', 'Teton', 'Lemhi'];
+
+        $("#information").show();
+        $("#racktexttitle").html(`<h3>${cluster}</h3>`);
+        $("#racktext").html(`<b>${informationaltxt}</b>`);
+        if(!no_display_clusters.includes(cluster)) {
+            $("#physicalView").show();
+            $("#physicalView").attr("href", "{{ url('dcim:PhysicalClusterViewFront', cluster='C_PH') }}".replace("C_PH", cluster.toLowerCase()));
+            if(cluster === 'Sawtooth') {
+                $("#clusterInfo").html(sawtooth_overview);
+            } else if (cluster === 'Utility') {
+                $("#clusterInfo").html(hoodoo_overview);
+            } else if (cluster === 'Hoodoo') {
+                $("#clusterInfo").html(hoodoo_overview);
+            } else if (cluster === 'Windriver') {
+                $("#clusterInfo").html(windriver_overview);
+            } else if (cluster === 'Bitterroot') {
+                $("#clusterInfo").html(bitterroot_overview);
+            } else {
+                $("#clusterInfo").html("");
+            }
+
+        } else {
+            $("#physicalView").hide();
+            $("#clusterInfo").html("");
+        }
+    }
+    </script>
+
+{% endblock addtohead %}
+
+{% block addtodocumentready %}
+    $(".picturescrollbox").css("height", "600px");
+    display();
+    $("#information").hide();
+    {# $("#clusterInfo").hide(); #}
+
+{% endblock addtodocumentready %}
+
+{% block wrappercontainertype %} container-fluid {% endblock %}
+{% block contentcontainertype %} container-fluid {% endblock %}
+{% block maincontent %}
+
+<div class="row">
+    {# Right display box to show information about the machine that the mouse is currently on #}
+    <div id="datacenterinformation" class="col-sm-2 mt-5">
+        <div class="infosquareshort">
+            <i class="">Learn more about each system</i>
+            <a onclick="clusterInfo('Sawtooth', '')" class="cluster-btn btn text-dark mt-2 sawtooth-color" style="width: 100%;">Sawtooth</a>
+            <a onclick="clusterInfo('Hoodoo', '')" class="cluster-btn btn text-white mt-2 hoodoo-color" style="width: 100%;">Hoodoo</a>
+            <a onclick="clusterInfo('Bitterroot', '')"class="cluster-btn btn text-dark mt-2 bitterroot-color" style="width: 100%;">Bitterroot</a>
+            <a onclick="clusterInfo('Windriver', '')" class="cluster-btn btn text-dark mt-2 windriver-color" style="width: 100%;">Wind River</a>
+
+            <div class="mt-5">
+                <i>Coming Soon</i>
+                <a href="" class="btn text-white mt-2 teton-color" style="width: 100%;">Teton - Summer 2025</a>
+            </div>
+
+        </div> {# infosquareshort #}
+    </div> {# displayBox #}
+
+    <div class="col-sm-10 position-relative">
+        <div class="picturescrollbox">
+            <div class="row">
+                <div class="col">
+                    <h3>Interactive!</h3>
+                    <i>Click a rack in the datacenter to see more information.</i>
+                </div>
+                <div id="information" class="alert-dark round-background col-7 row" style="height-min: 160px;">
+                    <div class="row">
+                        <div id="racktexttitle" class="col-3"></div>
+                        <div id="racktext" class="col-4"></div>
+                        <a id="physicalView" class="col-4 btn btn-primary">Click to See Inside of the Rack</a>
+                    </div>
+                    <div id="clusterInfo" class="row">
+                    </div>
+
+                </div>
+                <div class="col-2"></div>
+            </div>
+
+
+            <div id="highlightdatacenterrow" class="highlightdatacenterrow position-absolute"></div>  {# Highlighting row rowhighlights #}
+
+            <div id="datacenterarea" class="position-absolute">
+                <img id="datacenterdatacenter" class="datacenterimg" src="/static/dcim/images/datacenter.png" usemap="#datacentermap">
+            </div>
+        </div> {# datacenterscrollbox #}
+    </div>
+</div>
+
+{% endblock %}

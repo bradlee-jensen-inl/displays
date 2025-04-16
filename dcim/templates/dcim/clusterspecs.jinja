@@ -1,0 +1,42 @@
+{% block specificationscontent %}
+    {% block specificationsoverview %}
+    <h3>Highlights</h3>
+        <ul style="margin-left: 15px;">
+            <li>Made public to users on {{made_public_on}}</li>
+            <li>{{ total_cores }}-core {{ cluster.manufacturer }} {{ cluster.model }}</li>
+            {% if compute_nodes | length == 1 -%}
+            <li>{{ compute_nodes[0].hardware.cpu.cores * compute_nodes[0].hardware.sockets }} cores per node</li>
+            {%- endif %}
+            <li>{{ total_memory }} TB total memory</li>
+            {% if cluster.fabric -%}
+            <li>{{ cluster.fabric }}</li>
+            {%- endif %}
+            {% if cluster_os %}
+            <li>{{ cluster_os }} operating system</li>
+            {% endif %}
+            <li>LINPACK: {{ cluster.tflops }} Petaflops
+            {% if cluster.export_ctl_classification %}
+            <li>ECCN: {{ cluster.export_ctl_classification }}</li>
+            {% endif %}
+        </ul>
+
+
+    {% endblock specificationsoverview %}
+        {% if login_nodes %}
+        <h3>{{ login_nodes | length }} Login Node{% if login_nodes | length > 1 %}s{% endif %}</h3>
+        {% for login_node in login_nodes %}
+        {% if not login_node.skip %}
+        <h4>{{ login_node }}{% for ln in login_node.same_hardwares %}, {{ ln }}{% endfor %}</h4>
+        {{ printhardware(login_node.hardware) }}
+        {% endif %}{# not login_node.skip #}
+        {% endfor %}{# login_node in login_nodes #}
+        {% endif %}{# login_nodes #}
+        {% for cnode in compute_nodes %}
+        {% if cnode.quantity == 48 and cluster.display_name == 'Bitterroot'%}
+            <h3>{{ cnode.quantity }} High Bandwidth Memory (HBM) Compute Node{% if cnode.quantity > 1 %}s{% endif %} with:</h3>
+        {% else %}
+            <h3>{{ cnode.quantity }} Compute Node{% if cnode.quantity > 1 %}s{% endif %} with:</h3>
+        {% endif %}
+        {{ printhardware(cnode.hardware) }}
+        {% endfor %}{# cnode in compute_nodes #}
+{% endblock specificationscontent %}

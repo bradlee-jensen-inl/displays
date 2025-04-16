@@ -1,0 +1,45 @@
+{% if rowNum == 1 %}
+    <div id="rowarea{{rowNum}}" class="tab-pane fade active show" role="tabpanel" style="height: 1260px">
+        <div class="row">
+            {#START SIDEBAR#}
+            <div>
+
+                <div class="picturescrollbox col-sm-11 position-relative">
+
+                    <div class="highlightnode" id="rowHighlight{{rowNum}}"></div> {# highlights the selected area #}
+
+                    <div class="row ">
+                        <table><tr id="racknumber{{rowNum}}" class="racknumber"></tr></table>
+                    </div>
+                    <div id="rowdata{{rowNum}}" class="row position-absolute">
+                        <div id="unitcount{{rowNum}}" class="col-sm-2"></div>
+                    </div>
+
+                </div> {# picturescrollbox #}
+            </div>
+
+        </div> {# row #}
+    </div>
+{% else %}
+    <div id="rowarea{{rowNum}}" class="tab-pane fade" role="tabpanel" style="height: 1260px">
+        <div class="row">
+            {#START SIDEBAR#}
+            <div>
+
+                <div class="picturescrollbox col-sm-11 position-relative">
+
+                    <div class="highlightnode" id="rowHighlight{{rowNum}}"></div> {# highlights the selected area #}
+
+                    <div class="row ">
+                        <table id="rowTable{{rowNum}}"><tr id="racknumber{{rowNum}}" class="racknumber"></tr></table>
+                    </div>
+                    <div id="rowdata{{rowNum}}" class="row position-absolute">
+                        <div id="unitcount{{rowNum}}" class="col-sm-2"></div>
+                    </div>
+
+                </div> {# picturescrollbox #}
+            </div>
+
+        </div> {# row #}
+    </div>
+{% endif %}
