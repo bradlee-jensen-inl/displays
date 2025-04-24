@@ -14,8 +14,6 @@
 * @param {number} topNode - Pixel location of where the top of the highlight should start
 * @param {number} leftNode - Pixel location of where the left of the highlight should start
 */
-
-
 function nodeInformation(name, info, unitTop, unitLeft, unitWidth, unitHeight, rowNum) {
     info = info.replaceAll('+n', '<br>');
     if(name.includes("blank") === false) {
@@ -24,8 +22,8 @@ function nodeInformation(name, info, unitTop, unitLeft, unitWidth, unitHeight, r
         $(`#rowHighlight${rowNum}`).css("left", unitLeft);
         $(`#rowHighlight${rowNum}`).css("width", unitWidth);
         $(`#rowHighlight${rowNum}`).css("height", unitHeight);
-        $("#racktexttitle").html(`<h3>${name}</h3>`);
-        $("#racktext").html(`<b>${info}</b>`);
+        $("#racktexttitle").html(`<h4>${name}</h4>`);
+        $("#racktext").html('<p>' + info + '</p>');
         $("#information").show();
     }
 }

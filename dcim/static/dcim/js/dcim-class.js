@@ -24,15 +24,16 @@ class Subnode {
     }
 
     present(rowNum, unitLeftpx) {
-        let nodeHighlightLeft = Number(unitLeftpx.replace("px", "")) + this.subnodeLeft - 5;
-        let subnodeTop = this.subnodeTop + 41;
+
+        let nodeHighlightLeft = Number(unitLeftpx.replace("px", "")) + Number(this.subnodeLeft) - 5;
+        let subnodeTop = Number(this.subnodeTop) + 41;
 
         let nodeLink = `<button id="subnode${this.subnodeNum}" class="subnodes buttonhighlight nodeLink"
                         onclick="nodeInformation('${this.name}', '${this.information}', '${subnodeTop}px',
                                 '${nodeHighlightLeft}px', '${this.subnodeWidth}px', '${this.subnodeHeight}px',
                                 '${rowNum}')"
                         style="height:${this.subnodeHeight}px; width:${this.subnodeWidth}px; top:${this.subnodeTop}px;
-                        left:${this.subnodeLeft + 10}px;"></button>`;
+                        left:${Number(this.subnodeLeft) + 10}px;"></button>`;
 
         return nodeLink;
     }
@@ -339,3 +340,4 @@ function rackUnitHeight(units) {
     height = height * units;
     return String(height + "px");
 }
+

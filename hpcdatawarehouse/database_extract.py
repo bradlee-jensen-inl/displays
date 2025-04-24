@@ -10,13 +10,14 @@ def get_db_clusters(cluster_name):
                         'id': cluster_list[0],
                         'name': cluster_list[1]
                     }
-                    print(cluster)
+                    # print(cluster)
                     return cluster
+
 
 def get_datacenter_hardware_chassis(cluster_name):
     dcim_data = []
     column_names_list = []
-    with open('pg_dumps/20250415datacenter_hardware_chassis.sql') as chassis_file:
+    with open('pg_dumps/20250424chassis.sql') as chassis_file:
         for line in chassis_file:
             if 'COPY' in line:
                 column_names = re.findall(r'[\(](.+)[\)]', line)
@@ -31,13 +32,13 @@ def get_datacenter_hardware_chassis(cluster_name):
                         column = None
                     chassis_dict[column_names_list[x]] = column
                     dcim_data.append(chassis_dict)
-        print(chassis_dict)
     return dcim_data
+
 
 def get_datacenter_hardware(datacenter_hardware_chassis_id, cluster_name):
     datacenter_hardware = []
     column_names_list = []
-    with open('pg_dumps/20250415datacenter_hardware.sql') as hardware_file:
+    with open('pg_dumps/20250424hardware.sql') as hardware_file:
         for line in hardware_file:
             if 'COPY' in line:
                 column_names = re.findall(r'[\(](.+)[\)]', line)
@@ -55,10 +56,6 @@ def get_datacenter_hardware(datacenter_hardware_chassis_id, cluster_name):
                                     chassis_list[n] = None
                                 chassis_dict[name] = chassis_list[n]
                             datacenter_hardware.append(chassis_dict)
-    print(datacenter_hardware)
+    # print(datacenter_hardware)
 
     return datacenter_hardware
-
-
-
-get_datacenter_hardware_chassis('bitterroot')
