@@ -89,22 +89,16 @@ WSGI_APPLICATION = 'displays.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hpcweb_django',
-        'PORT': '5432',
-    },
-    'hpcdatawarehouse': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hpcdatawarehouse',
-        'PORT': '5432',
-    },
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'hpcdatawarehouse',
+#         'PORT': '5432',
+#     },
+# }
 
-local_user = getpass.getuser()
-DATABASES['default']['USER'] = local_user
-DATABASES['hpcdatawarehouse']['USER'] = local_user
+# local_user = getpass.getuser()
+# DATABASES['default']['USER'] = local_user
 
 # Database routers
 class DatawarehouseRouter(object):

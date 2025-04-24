@@ -1,6 +1,6 @@
 from home.views import CommonPageView
 from django.http import JsonResponse
-from hpcdatawarehouse.models import Cluster, DatacenterHardwareChassis, DatacenterHardware
+from hpcdatawarehouse.database_extract import get_db_clusters, get_datacenter_hardware_chassis, get_datacenter_hardware
 import re
 
 re_cluster_page_name = re.compile(r'physical(?P<cluster>[A-Z][a-z]+)')
@@ -41,13 +41,6 @@ class DataCenter(CommonPageView):
         return data
 
 
-def get_cluster(pageName):
-    # Gets cluster object from datawarehouse based on the pagename
-    cluster_name = re_cluster_page_name.findall(pageName)
-    cluster = Cluster.objects.get(name=cluster_name[0].lower())
-    return cluster
-
-
 class PhysicalClusterViewBack(CommonPageView):
     """
         Physical view of cluster back
@@ -57,7 +50,7 @@ class PhysicalClusterViewBack(CommonPageView):
 
     def get_context_data(self, **kwargs) -> dict:
         cluster_name = kwargs['cluster'].lower()
-        cluster = Cluster.objects.get(name=cluster_name)
+        cluster = get_db_clusters(cluster_name)
         rows = [1]
         if cluster_name == 'sawtooth':
             rows = [1, 2]
@@ -76,7 +69,7 @@ class PhysicalClusterViewFront(CommonPageView):
 
     def get_context_data(self, **kwargs) -> dict:
         cluster_name = kwargs['cluster'].lower()
-        cluster = Cluster.objects.get(name=cluster_name)
+        cluster = get_db_clusters(cluster_name)
         rows = [1]
         if cluster_name == 'sawtooth':
             rows = [1, 2]
@@ -87,8 +80,8 @@ class PhysicalClusterViewFront(CommonPageView):
 
 
 def layout_data(request, cluster):
-    cluster_id = Cluster.objects.get(name=cluster).id
-    dcim_data = list(DatacenterHardwareChassis.objects.filter(cluster_id=cluster_id).values())
+    cluster_name = get_db_clusters(cluster)['name']
+    dcim_data = get_datacenter_hardware_chassis(cluster_name)
     dcim_data_list = {}
     for row in dcim_data:
         if row['dcim_row'] not in dcim_data_list.keys():
@@ -96,18 +89,18 @@ def layout_data(request, cluster):
 
             if row['dcim_rack'] not in dcim_data_list[row['dcim_row']].keys():
                 dcim_data_list[row['dcim_row']][row['dcim_rack']] = []
-                row['nodes'] = list(DatacenterHardware.objects.filter(datacenter_hardware_chassis_id=row['id']).values())
+                row['nodes'] = get_datacenter_hardware(row['id'], cluster_name)
                 dcim_data_list[row['dcim_row']][row['dcim_rack']].append(row)
             else:
-                row['nodes'] = list(DatacenterHardware.objects.filter(datacenter_hardware_chassis_id=row['id']).values())
+                row['nodes'] = get_datacenter_hardware(row['id'], cluster_name)
                 dcim_data_list[row['dcim_row']][row['dcim_rack']].append(row)
         else:
             if row['dcim_rack'] not in dcim_data_list[row['dcim_row']].keys():
                 dcim_data_list[row['dcim_row']][row['dcim_rack']] = []
-                row['nodes'] = list(DatacenterHardware.objects.filter(datacenter_hardware_chassis_id=row['id']).values())
+                row['nodes'] = get_datacenter_hardware(row['id'], cluster_name)
                 dcim_data_list[row['dcim_row']][row['dcim_rack']].append(row)
             else:
-                row['nodes'] = list(DatacenterHardware.objects.filter(datacenter_hardware_chassis_id=row['id']).values())
+                row['nodes'] = get_datacenter_hardware(row['id'], cluster_name)
                 dcim_data_list[row['dcim_row']][row['dcim_rack']].append(row)
 
     return JsonResponse({'dcim_data': dcim_data_list})
