@@ -1,4 +1,5 @@
 *.pyc
+*.*.pyc
 pbs/images/
 license/images/
 static/reporting/images/hpc_usage*.png

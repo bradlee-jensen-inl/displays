@@ -50,8 +50,7 @@
                         </div>`;
     var hoodoo_overview = `<div class="row">
                             <div class="col-3">
-                                <img id="sawtoothRange" src="/static/dcim/images/hoodoo-expansion.jpg" alt="" class="img-fluid img-thumbnail">
-                                <img id="sawtoothRange" src="/static/dcim/images/hoodoo-front.jpg" alt="" class="img-fluid img-thumbnail">
+                                <img src="/static/dcim/images/hoodoo.jpg" alt="" class="img-fluid img-thumbnail">
                             </div>
                             <div class="col-9">
                                 Supercomputer Hoodoo arrived at Idaho National Laboratory in 2021. It was named after the Hoodoo mountain range in
@@ -80,7 +79,7 @@
     var bitterroot_overview = `
                                 <div class="row">
                                 <div class="col-3">
-                                    <img id="bitterroot" src="/static/dcim/images//Bitterroot.jpg" class="img-fluid img-thumbnail">
+                                    <img id="bitterroot" src="/static/dcim/images/bitterroot.jpg" class="img-fluid img-thumbnail">
                                 </div>
                                 <div class="col-9">
                                 Supercomputer Bitterroot arrived at Idaho National Laboratory in June 2024. It was named after the Bitterroot mountain
@@ -96,8 +95,20 @@
                                 Includes Hoodoo, IBM, Storage, MOOSE, and more
                                 </div>`;
 
+    var teton_overview =  `
+                        <div class="row">
+                            <div class="col-3">
+                                <img src='/static/dcim/images/teton.png' alt=""
+                                    class="img-fluid img-thumbnail">
+                            </div>
+                            <div class="col-9">
+                                Supercomputer Teton is expected to arrive at Idaho National Laboratory August 2025. The system is an HPE Cray EX 4000. It will have 393,216 AMD 9965 Turin cores,
+                                1024 nodes, 384 cores/node, and 768 GB/node, 2GB/core. It will have 15.6 Petaflop/s performance.
+                            </div>
+                        `;
+
     function clusterInfo(cluster, informationaltxt) {
-        var no_display_clusters = ['Falcon', 'University', 'Teton', 'Lemhi'];
+        var no_display_clusters = ['Falcon', 'University', 'Lemhi'];
 
         $("#information").show();
         $("#racktexttitle").html(`<h3>${cluster}</h3>`);
@@ -115,6 +126,9 @@
                 $("#clusterInfo").html(windriver_overview);
             } else if (cluster === 'Bitterroot') {
                 $("#clusterInfo").html(bitterroot_overview);
+            } else if (cluster === 'Teton') {
+                $("#clusterInfo").html(teton_overview);
+                $("#physicalView").hide();
             } else {
                 $("#clusterInfo").html("");
             }
@@ -153,7 +167,7 @@
 
             <div class="mt-5">
                 <i>Coming Soon</i>
-                <a href="" class="btn text-white mt-2 teton-color" style="width: 100%;">Teton - Summer 2025</a>
+                <a onclick="clusterInfo('Teton', '')" class="btn text-white mt-2 teton-color" style="width: 100%;">Teton - Summer 2025</a>
             </div>
 
         </div> {# infosquareshort #}

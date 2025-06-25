@@ -44,16 +44,20 @@ class Rack {
         console.log(cluster)
         if(cluster == 'teton') {
             if(this.information.includes('Rack 5')) {
-                rackTop = rackTop - 16;
+                rackTop = rackTop - 18;
             }
             if(this.information.includes('Rack 4')) {
-                rackTop = rackTop - 17;
+                rackTop = rackTop - 20;
             }
-        } else {
-            if(this.information.includes("CDU") || this.information === "") {
-                rackLeft = rackLeft + 7;
-                buttonColor = 'gray';
+            if(this.information.includes('300')) {
+                rackTop = rackTop + 8;
             }
+        }
+        if(this.information.includes("CDU") || this.information === "") {
+            if(cluster != 'teton') {
+                rackLeft = rackLeft + 6;
+            }
+            buttonColor = 'gray';
         }
 
 
@@ -129,13 +133,13 @@ let srack31 = new Rack(2, 't', 18.75, 41.5, "IT Rack <br> 102");
 /************************** TETON ***********************/
 let track2 = new Rack(1, 'c', 36, 55, "Rack 9");
 let track3 = new Rack(1, 'd', 36, 55, "Rack 8");
-let track4 = new Rack(1, 'f', 28.5, 55, "Rack 7 - CDU");
-let track5 = new Rack(1, 'g', 28.5, 55, "Rack 6 - CDU");
+let track4 = new Rack(1, 'f', 28.5, 55, "CDU  <br> D100");
+let track5 = new Rack(1, 'g', 28.5, 55, "CDU  <br> D101");
 let track6 = new Rack(1, 'g', 36, 55, "Rack 5 ");
 let track7 = new Rack(1, 'h', 36, 55, "Rack 4");
-let track8 = new Rack(1, 'j', 28.5, 55, "Rack 3");
-let track9 = new Rack(1, 'k', 28.5, 55, "Rack 2 - Cooling Rack");
-let track10 = new Rack(1, 'm', 28.5, 55, "Rack 1");
+let track8 = new Rack(1, 'j', 28.5, 55, "IT Rack <br> 3000");
+let track9 = new Rack(1, 'k', 28.5, 55, "Cooling Rack <br> D300");
+let track10 = new Rack(1, 'l', 28.5, 55, "IT Rack <br> 3001");
 
 
 /************************** Wind River ***********************/
