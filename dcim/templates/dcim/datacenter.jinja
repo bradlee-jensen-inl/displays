@@ -88,6 +88,13 @@
                                 are 48 HBM nodes, which makes it very unique. It continues to be used for high performance computing tasks including computational power
                                 and storage capabilities for scientific simulations, data analysis, and modeling. Bitterroot has over 43,000 cores and 90 TB of total memory.
                                 </div>`;
+    var utility_overview = `
+                                <div class="row">
+                                <div class="col-3">
+                                </div>
+                                <div class="col-9">
+                                Includes Hoodoo, IBM, Storage, MOOSE, and more
+                                </div>`;
 
     function clusterInfo(cluster, informationaltxt) {
         var no_display_clusters = ['Falcon', 'University', 'Teton', 'Lemhi'];
@@ -100,10 +107,10 @@
             $("#physicalView").attr("href", "{{ url('dcim:PhysicalClusterViewFront', cluster='C_PH') }}".replace("C_PH", cluster.toLowerCase()));
             if(cluster === 'Sawtooth') {
                 $("#clusterInfo").html(sawtooth_overview);
-            } else if (cluster === 'Utility') {
-                $("#clusterInfo").html(hoodoo_overview);
             } else if (cluster === 'Hoodoo') {
                 $("#clusterInfo").html(hoodoo_overview);
+            } else if (cluster === 'Utility') {
+                $("#clusterInfo").html(utility_overview);
             } else if (cluster === 'Windriver') {
                 $("#clusterInfo").html(windriver_overview);
             } else if (cluster === 'Bitterroot') {
@@ -124,7 +131,8 @@
 {% block addtodocumentready %}
     $(".picturescrollbox").css("height", "1000px");
     display();
-    $("#information").hide();
+    {#$("#information").hide();#}
+    $("#physicalView").hide();
     {# $("#clusterInfo").hide(); #}
 
 {% endblock addtodocumentready %}
@@ -160,11 +168,12 @@
                 </div>
                 <div id="information" class="alert-dark round-background col-7 row" style="height-min: 160px;">
                     <div class="row">
-                        <div id="racktexttitle" class="col-3"></div>
+                        <div id="racktexttitle" class="col-3"><h2>The C3 Datacenter</h2></div>
                         <div id="racktext" class="col-4"></div>
                         <a id="physicalView" class="col-4 btn btn-primary">Click to See Inside of the Rack</a>
                     </div>
                     <div id="clusterInfo" class="row">
+
                     </div>
 
                 </div>
