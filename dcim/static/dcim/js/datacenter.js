@@ -41,7 +41,6 @@ class Rack {
             cluster_name = cluster.charAt(0).toUpperCase() + cluster.slice(1);
         }
 
-        console.log(cluster)
         if(cluster == 'teton') {
             if(this.information.includes('Rack 5')) {
                 rackTop = rackTop - 18;
