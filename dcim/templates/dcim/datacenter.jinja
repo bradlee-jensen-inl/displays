@@ -50,8 +50,7 @@
                         </div>`;
     var hoodoo_overview = `<div class="row">
                             <div class="col-3">
-                                <img id="sawtoothRange" src="/static/dcim/images/hoodoo-expansion.jpg" alt="" class="img-fluid img-thumbnail">
-                                <img id="sawtoothRange" src="/static/dcim/images/hoodoo-front.jpg" alt="" class="img-fluid img-thumbnail">
+                                <img src="/static/dcim/images/hoodoo.jpg" alt="" class="img-fluid img-thumbnail">
                             </div>
                             <div class="col-9">
                                 Supercomputer Hoodoo arrived at Idaho National Laboratory in 2021. It was named after the Hoodoo mountain range in
@@ -80,7 +79,7 @@
     var bitterroot_overview = `
                                 <div class="row">
                                 <div class="col-3">
-                                    <img id="bitterroot" src="/static/dcim/images//Bitterroot.jpg" class="img-fluid img-thumbnail">
+                                    <img id="bitterroot" src="/static/dcim/images/bitterroot.jpg" class="img-fluid img-thumbnail">
                                 </div>
                                 <div class="col-9">
                                 Supercomputer Bitterroot arrived at Idaho National Laboratory in June 2024. It was named after the Bitterroot mountain
@@ -88,9 +87,28 @@
                                 are 48 HBM nodes, which makes it very unique. It continues to be used for high performance computing tasks including computational power
                                 and storage capabilities for scientific simulations, data analysis, and modeling. Bitterroot has over 43,000 cores and 90 TB of total memory.
                                 </div>`;
+    var utility_overview = `
+                                <div class="row">
+                                <div class="col-3">
+                                </div>
+                                <div class="col-9">
+                                Includes Hoodoo, IBM, Storage, MOOSE, and more
+                                </div>`;
+
+    var teton_overview =  `
+                        <div class="row">
+                            <div class="col-3">
+                                <img src='/static/dcim/images/teton.png' alt=""
+                                    class="img-fluid img-thumbnail">
+                            </div>
+                            <div class="col-9">
+                                Supercomputer Teton is expected to arrive at Idaho National Laboratory August 2025. The system is an HPE Cray EX 4000. It will have 393,216 AMD 9965 Turin cores,
+                                1024 nodes, 384 cores/node, and 768 GB/node, 2GB/core. It will have 15.6 Petaflop/s performance.
+                            </div>
+                        `;
 
     function clusterInfo(cluster, informationaltxt) {
-        var no_display_clusters = ['Falcon', 'University', 'Teton', 'Lemhi'];
+        var no_display_clusters = ['Falcon', 'University', 'Lemhi'];
 
         $("#information").show();
         $("#racktexttitle").html(`<h3>${cluster}</h3>`);
@@ -100,14 +118,17 @@
             $("#physicalView").attr("href", "{{ url('dcim:PhysicalClusterViewFront', cluster='C_PH') }}".replace("C_PH", cluster.toLowerCase()));
             if(cluster === 'Sawtooth') {
                 $("#clusterInfo").html(sawtooth_overview);
-            } else if (cluster === 'Utility') {
-                $("#clusterInfo").html(hoodoo_overview);
             } else if (cluster === 'Hoodoo') {
                 $("#clusterInfo").html(hoodoo_overview);
+            } else if (cluster === 'Utility') {
+                $("#clusterInfo").html(utility_overview);
             } else if (cluster === 'Windriver') {
                 $("#clusterInfo").html(windriver_overview);
             } else if (cluster === 'Bitterroot') {
                 $("#clusterInfo").html(bitterroot_overview);
+            } else if (cluster === 'Teton') {
+                $("#clusterInfo").html(teton_overview);
+                $("#physicalView").hide();
             } else {
                 $("#clusterInfo").html("");
             }
@@ -124,7 +145,8 @@
 {% block addtodocumentready %}
     $(".picturescrollbox").css("height", "1000px");
     display();
-    $("#information").hide();
+    {#$("#information").hide();#}
+    $("#physicalView").hide();
     {# $("#clusterInfo").hide(); #}
 
 {% endblock addtodocumentready %}
@@ -145,7 +167,7 @@
 
             <div class="mt-5">
                 <i>Coming Soon</i>
-                <a href="" class="btn text-white mt-2 teton-color" style="width: 100%;">Teton - Summer 2025</a>
+                <a onclick="clusterInfo('Teton', '')" class="btn text-white mt-2 teton-color" style="width: 100%;">Teton - Summer 2025</a>
             </div>
 
         </div> {# infosquareshort #}
@@ -160,11 +182,12 @@
                 </div>
                 <div id="information" class="alert-dark round-background col-7 row" style="height-min: 160px;">
                     <div class="row">
-                        <div id="racktexttitle" class="col-3"></div>
+                        <div id="racktexttitle" class="col-3"><h2>The C3 Datacenter</h2></div>
                         <div id="racktext" class="col-4"></div>
                         <a id="physicalView" class="col-4 btn btn-primary">Click to See Inside of the Rack</a>
                     </div>
                     <div id="clusterInfo" class="row">
+
                     </div>
 
                 </div>

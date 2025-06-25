@@ -30,22 +30,40 @@ class Rack {
         let rackTop = 0;
         let rackLeft = locationNumberDict[rowNumber];
         let buttonColor;
+        let cluster_name;
         rackTop = (this.locationLetter.charCodeAt(0) - 97) * this.unitHeight + 43;
 
         buttonColor = cluster + '-color';
         if(this.information.includes("Hoodoo")) {
             buttonColor = 'hoodoo-color';
+            cluster_name = 'Hoodoo';
+        } else {
+            cluster_name = cluster.charAt(0).toUpperCase() + cluster.slice(1);
         }
 
+        if(cluster == 'teton') {
+            if(this.information.includes('Rack 5')) {
+                rackTop = rackTop - 18;
+            }
+            if(this.information.includes('Rack 4')) {
+                rackTop = rackTop - 20;
+            }
+            if(this.information.includes('300')) {
+                rackTop = rackTop + 8;
+            }
+        }
         if(this.information.includes("CDU") || this.information === "") {
-            rackLeft = rackLeft + 7;
+            if(cluster != 'teton') {
+                rackLeft = rackLeft + 6;
+            }
             buttonColor = 'gray';
         }
+
 
         let rackButton = `<a class="` + cluster + `Link"><button id="rack` + this.rackNumber + `" class="` + buttonColor + `"
                     style="height: ` + this.unitHeight + `px; width: ` + this.unitWidth +`px; top:` + rackTop +
                     `px; left:` + rackLeft + `px; position:absolute;
-                    z-index:8;" onclick="clusterInfo('` + cluster.charAt(0).toUpperCase() + cluster.slice(1)  + `', '`
+                    z-index:8;" onclick="clusterInfo('` + cluster_name  + `', '`
                     + this.information + `')"></button></a>`;
         return rackButton;
     }
@@ -112,19 +130,15 @@ let srack31 = new Rack(2, 't', 18.75, 41.5, "IT Rack <br> 102");
 
 
 /************************** TETON ***********************/
-let track1 = new Rack(1, 'c', 25, 59, "Rack 13");
-let track2 = new Rack(1, 'd', 25, 59, "Rack 12");
-let track3 = new Rack(1, 'e', 25, 59, "Rack 11");
-let track4 = new Rack(1, 'f', 25, 59, "Rack 10");
-let track5 = new Rack(1, 'g', 25, 59, "Rack 9");
-let track6 = new Rack(1, 'h', 25, 59, "Rack 8");
-let track7 = new Rack(1, 'i', 25, 59, "Rack 7");
-let track8 = new Rack(1, 'j', 25, 59, "Rack 6");
-let track9 = new Rack(1, 'k', 25, 59, "Rack 5");
-let track10 = new Rack(1, 'l', 25, 59, "Rack 4");
-let track11 = new Rack(1, 'm', 25, 59, "Rack 3");
-let track12 = new Rack(1, 'n', 25, 59, "Rack 2");
-let track13 = new Rack(1, 'o', 25, 59, "Rack 1");
+let track2 = new Rack(1, 'c', 36, 55, "Rack 9");
+let track3 = new Rack(1, 'd', 36, 55, "Rack 8");
+let track4 = new Rack(1, 'f', 28.5, 55, "CDU  <br> D100");
+let track5 = new Rack(1, 'g', 28.5, 55, "CDU  <br> D101");
+let track6 = new Rack(1, 'g', 36, 55, "Rack 5 ");
+let track7 = new Rack(1, 'h', 36, 55, "Rack 4");
+let track8 = new Rack(1, 'j', 28.5, 55, "IT Rack <br> 3000");
+let track9 = new Rack(1, 'k', 28.5, 55, "Cooling Rack <br> D300");
+let track10 = new Rack(1, 'l', 28.5, 55, "IT Rack <br> 3001");
 
 
 /************************** Wind River ***********************/
@@ -150,9 +164,9 @@ let wrrack24 = new Rack(2, 'e', 25, 59, "Rack 16- GW/Compute");
 let wrrack25 = new Rack(2, 'f', 25, 59, "Rack 15");
 let wrrack26 = new Rack(2, 'g', 25, 59, "Rack 14");
 
-let wrrack31 = new Rack(3, 'd', 25, 59, "Rack 18");
+let wrrack33 = new Rack(3, 'd', 25, 59, "Rack 20");
 let wrrack32 = new Rack(3, 'e', 25, 59, "Rack 19");
-let wrrack33 = new Rack(3, 'f', 25, 59, "Rack 20");
+let wrrack31 = new Rack(3, 'f', 25, 59, "Rack 18");
 
 
 /************************** BITTERROOT ***********************/
@@ -291,7 +305,6 @@ function display() {
     row2.addRack(srack30);
     row2.addRack(srack31);
 
-    row3.addRack(track1);
     row3.addRack(track2);
     row3.addRack(track3);
     row3.addRack(track4);
@@ -301,9 +314,6 @@ function display() {
     row3.addRack(track8);
     row3.addRack(track9);
     row3.addRack(track10);
-    row3.addRack(track11);
-    row3.addRack(track12);
-    row3.addRack(track13);
 
     row6.addRack(wrrack1);
     row6.addRack(wrrack2);
